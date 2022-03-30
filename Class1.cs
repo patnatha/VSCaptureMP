@@ -1766,7 +1766,15 @@ namespace VSCaptureMP
                     }
                     else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_ABP_MEAN")
                     {
-                        m_RC_Data.Add("map", NumValResult.Value);
+                        m_RC_Data.Add("art_map", NumValResult.Value);
+                    }
+                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_ABP_SYS")
+                    {
+                        m_RC_Data.Add("art_systolic", NumValResult.Value);
+                    }
+                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_ABP_DIA")
+                    {
+                        m_RC_Data.Add("art_diastolic", NumValResult.Value);
                     }
                     else if (NumValResult.PhysioID == "NOM_AWAY_CO2_ET")
                     {
