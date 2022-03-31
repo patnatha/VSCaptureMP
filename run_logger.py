@@ -9,18 +9,19 @@ command_path = "/home/pi/Documents/VSCaptureMP/bin/Debug/net6.0"
 command = "dotnet VSCaptureMP.dll -mode 1 -port " + intellivue_lan +" -interval 3 -waveset 7 -scale 2 -export 2"
 
 def is_logger_alive():
-    result = subprocess.run(['ps','-au'], stdout=subprocess.PIPE)
+    result = subprocess.run(['ps','-aux'], stdout=subprocess.PIPE)
     for line in result.stdout.decode('utf-8').split('\n'):
-        if("VSCaptureMP" in line):
+        if("VSCaptureMP" in line and "run_logger.py" not in line):
             return True
     return False
 
 def stop_logger():
     print("\tStopping Logger")
-    os.system("ps -au | grep dotnet | grep VSCapture | awk '{print $2}' | sudo xargs kill -9")
+    os.system("ps -aux | grep dotnet | grep VSCapture | awk '{print $2}' | sudo xargs kill -9")
 
 #Die with grace
 def sighandler(signum, stack):
+    print("Program Shutting Down")
     stop_logger()
     sys.exit(0)
 signal.signal(signal.SIGINT, sighandler)
