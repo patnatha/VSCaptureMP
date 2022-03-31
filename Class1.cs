@@ -1776,6 +1776,10 @@ namespace VSCaptureMP
                     {
                         m_RC_Data.Add("art_diastolic", NumValResult.Value);
                     }
+                    else if (NumValResult.PhysioID == "NOM_PULS_RATE")
+                    {
+                        m_RC_Data.Add("art_pulse", NumValResult.Value);
+                    }
                     else if (NumValResult.PhysioID == "NOM_AWAY_CO2_ET")
                     {
                         m_RC_Data.Add("etco2", NumValResult.Value);
@@ -1786,12 +1790,13 @@ namespace VSCaptureMP
                     }
                     else if (NumValResult.PhysioID == "NOM_PLETH_PULS_RATE")
                     {
-                        m_RC_Data.Add("pulse_rate", NumValResult.Value);
+                        m_RC_Data.Add("spo2_pulse_rate", NumValResult.Value);
                     }
                     else if (NumValResult.PhysioID == "NOM_PULS_OXIM_SAT_O2")
                     {
                         m_RC_Data.Add("spo2", NumValResult.Value);
                     }
+
                     else if(NumValResult.PhysioID == "NOM_PULS_OXIM_PERF_REL")
                     {
                         m_RC_Data.Add("spo2_perf", NumValResult.Value);
@@ -1799,6 +1804,14 @@ namespace VSCaptureMP
                     else if (NumValResult.PhysioID == "NOM_CONC_AWAY_O2_INSP")
                     {
                         m_RC_Data.Add("inhaled_o2", NumValResult.Value);
+                    }
+                    else if (NumValResult.PhysioID == "NOM_CONC_AWAY_ISOFL_INSP")
+                    {
+                        m_RC_Data.Add("inhaled_iso", NumValResult.Value);
+                    }
+                    else if (NumValResult.PhysioID == "NOM_CONC_AWAY_SUM_MAC")
+                    {
+                        m_RC_Data.Add("mac", NumValResult.Value);
                     }
                 }
             }
