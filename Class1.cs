@@ -1778,7 +1778,7 @@ namespace VSCaptureMP
                     }
                     else if (NumValResult.PhysioID == "NOM_PULS_RATE")
                     {
-                        m_RC_Data.Add("art_pulse", NumValResult.Value);
+                        m_RC_Data.Add("art_pulse_rate", NumValResult.Value);
                     }
                     else if (NumValResult.PhysioID == "NOM_AWAY_CO2_ET")
                     {
