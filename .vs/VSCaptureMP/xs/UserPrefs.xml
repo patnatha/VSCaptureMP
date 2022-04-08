@@ -1,11 +1,5 @@
 ﻿<Properties StartupConfiguration="{329E3C24-F228-4544-800E-427C4C3B8143}|Default">
-  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
   <MonoDevelop.Ide.ItemProperties.VSCaptureMP PreferredExecutionTarget="MonoDevelop.Default" />
-  <MultiItemStartupConfigurations />
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
-  </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.Workbench ActiveDocument="Class1.cs">
     <Files>
       <File FileName="Program.cs" Line="111" Column="2" />
@@ -18,9 +12,7 @@
       <Pad Id="ProjectPad">
         <State name="__root__">
           <Node name="VSCaptureMP" expanded="True">
-            <Node name="VSCaptureMP" expanded="True">
-              <Node name="Class1.cs" selected="True" />
-            </Node>
+            <Node name="VSCaptureMP" expanded="True" />
           </Node>
         </State>
       </Pad>
@@ -29,4 +21,10 @@
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
+  <MultiItemStartupConfigurations />
+  <MonoDevelop.Ide.DebuggingService.PinnedWatches />
+  <MonoDevelop.Ide.DebuggingService.Breakpoints>
+    <BreakpointStore />
+  </MonoDevelop.Ide.DebuggingService.Breakpoints>
 </Properties>

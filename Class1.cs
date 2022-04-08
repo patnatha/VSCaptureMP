@@ -1776,7 +1776,7 @@ namespace VSCaptureMP
                     {
                         m_RC_Data.Add("art_diastolic", NumValResult.Value);
                     }
-                    else if (NumValResult.PhysioID == "NOM_PULS_RATE")
+                    else if (!m_RC_Data.ContainsKey("NOM_PULS_RATE") && NumValResult.PhysioID == "NOM_PULS_RATE")
                     {
                         m_RC_Data.Add("art_pulse_rate", NumValResult.Value);
                     }
@@ -1812,6 +1812,18 @@ namespace VSCaptureMP
                     else if (NumValResult.PhysioID == "NOM_CONC_AWAY_SUM_MAC")
                     {
                         m_RC_Data.Add("mac", NumValResult.Value);
+                    }
+                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_PULM_MEAN")
+                    {
+                        m_RC_Data.Add("pa_mean", NumValResult.Value);
+                    }
+                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_PULM_SYS")
+                    {
+                        m_RC_Data.Add("pa_systolic", NumValResult.Value);
+                    }
+                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_PULM_DIA")
+                    {
+                        m_RC_Data.Add("pa_diastolic", NumValResult.Value);
                     }
                 }
             }
