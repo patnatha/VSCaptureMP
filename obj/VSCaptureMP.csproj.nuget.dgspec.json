@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "/home/pi/Documents/VSCaptureMP/VSCaptureMP.csproj": {}
+    "/Users/nathanpatel/Documents/VSCaptureMP/VSCaptureMP.csproj": {}
   },
   "projects": {
-    "/home/pi/Documents/VSCaptureMP/VSCaptureMP.csproj": {
+    "/Users/nathanpatel/Documents/VSCaptureMP/VSCaptureMP.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "/home/pi/Documents/VSCaptureMP/VSCaptureMP.csproj",
+        "projectUniqueName": "/Users/nathanpatel/Documents/VSCaptureMP/VSCaptureMP.csproj",
         "projectName": "VSCaptureMP",
-        "projectPath": "/home/pi/Documents/VSCaptureMP/VSCaptureMP.csproj",
-        "packagesPath": "/home/pi/.nuget/packages/",
-        "outputPath": "/home/pi/Documents/VSCaptureMP/obj/",
+        "projectPath": "/Users/nathanpatel/Documents/VSCaptureMP/VSCaptureMP.csproj",
+        "packagesPath": "/Users/nathanpatel/.nuget/packages/",
+        "outputPath": "/Users/nathanpatel/Documents/VSCaptureMP/obj/",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "/home/pi/.nuget/NuGet/NuGet.Config"
+          "/Users/nathanpatel/.nuget/NuGet/NuGet.Config"
         ],
         "originalTargetFrameworks": [
           "net6.0"
@@ -66,7 +66,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "/opt/dotnet/sdk/6.0.201/RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "/usr/local/share/dotnet/sdk/6.0.201/RuntimeIdentifierGraph.json"
         }
       }
     }
