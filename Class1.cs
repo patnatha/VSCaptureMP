@@ -1764,19 +1764,19 @@ namespace VSCaptureMP
                     {
                         m_RC_Data.Add("temp", NumValResult.Value);
                     }
-                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_ABP_MEAN")
+                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_ABP_MEAN" || NumValResult.PhysioID == "NOM_PRESS_BLD_MEAN")
                     {
                         m_RC_Data.Add("art_map", NumValResult.Value);
                     }
-                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_ABP_SYS")
+                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_ABP_SYS" || NumValResult.PhysioID == "NOM_PRESS_BLD_SYS")
                     {
                         m_RC_Data.Add("art_systolic", NumValResult.Value);
                     }
-                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_ABP_DIA")
+                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_ABP_DIA" || NumValResult.PhysioID == "NOM_PRESS_BLD_DIA")
                     {
                         m_RC_Data.Add("art_diastolic", NumValResult.Value);
                     }
-                    else if (!m_RC_Data.ContainsKey("NOM_PULS_RATE") && NumValResult.PhysioID == "NOM_PULS_RATE")
+                    else if (!m_RC_Data.ContainsKey("art_pulse_rate") && NumValResult.PhysioID == "NOM_PULS_RATE")
                     {
                         m_RC_Data.Add("art_pulse_rate", NumValResult.Value);
                     }
