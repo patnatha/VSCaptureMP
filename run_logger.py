@@ -8,28 +8,26 @@ intellivue_lan = None
 intellivue_default_port = 24105
 def scan_lan():
     devices = []
-    for device in os.popen('arp -a'): devices.append(device)
+    for device in os.popen('fping -a -g 192.168.8.0/24 2> /dev/null'): devices.append(device)
     print("Scanning LAN, found " + str(len(devices)) + " devices")
 
-    for dev in devices:
-        parseLine = dev.split(" ")
-        if(len(parseLine) > 2):
-            ipaddr = parseLine[1].strip(")").strip("(")
-            
-            for line in os.popen('nc -v -u -w 3 ' + ipaddr + ' ' + 
-                                 str(intellivue_default_port) + ' 2>&1'):
-                if("failed" in line or "timed out" in line):
-                    print(ipaddr, "Failed")
-                    continue
-                elif("succeeded" in line):
-                    response = subprocess.run(["ping", "-c", "1", "-w2", 
-                                                ipaddr], 
-                                    stdout=subprocess.DEVNULL).returncode
-                    if(response == 0):
-                        print(ipaddr, "Success") 
-                        return ipaddr
-                else:
-                    print(ipaddr, "UNKNOWN RESP", line)
+    for ipaddr in devices:
+        ipaddr = ipaddr.strip("\n")
+
+        for line in os.popen('nc -v -u -w 3 ' + ipaddr + ' ' + 
+                             str(intellivue_default_port) + ' 2>&1'):
+            if("failed" in line or "timed out" in line):
+                print(ipaddr, "Failed")
+                continue
+            elif("succeeded" in line):
+                response = subprocess.run(["ping", "-c", "1", "-w2", 
+                                            ipaddr], 
+                                stdout=subprocess.DEVNULL).returncode
+                if(response == 0):
+                    print(ipaddr, "Success") 
+                    return ipaddr
+            else:
+                print(ipaddr, "UNKNOWN RESP", line)
 
 #these are constants to run the program
 command_path = "/home/pi/Documents/VSCaptureMP/bin/Debug/net6.0"
