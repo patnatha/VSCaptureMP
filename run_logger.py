@@ -22,8 +22,12 @@ def scan_lan():
                     print(ipaddr, "Failed")
                     continue
                 elif("succeeded" in line):
-                    print(ipaddr, "Success")
-                    return ipaddr
+                    response = subprocess.run(["ping", "-c", "1", "-w2", 
+                                                ipaddr], 
+                                    stdout=subprocess.DEVNULL).returncode
+                    if(response == 0):
+                        print(ipaddr, "Success") 
+                        return ipaddr
                 else:
                     print(ipaddr, "UNKNOWN RESP", line)
 
