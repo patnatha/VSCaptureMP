@@ -5,6 +5,8 @@ import signal
 import sys
 
 intellivue_lan = "192.168.8.217"
+
+#these are constants to run the program
 command_path = "/home/pi/Documents/VSCaptureMP/bin/Debug/net6.0"
 command = "dotnet VSCaptureMP.dll -mode 1 -port " + intellivue_lan +" -interval 3 -waveset 7 -scale 2 -export 2"
 
