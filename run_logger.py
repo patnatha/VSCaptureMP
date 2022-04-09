@@ -5,6 +5,26 @@ import signal
 import sys
 
 intellivue_lan = "192.168.8.217"
+intellivue_default_port = 443
+def scan_lan():
+    devices = []
+    for device in os.popen('arp -a'): devices.append(device)
+    
+    for dev in devices:
+        parseLine = dev.split(" ")
+        if(len(parseLine) > 2):
+            ipaddr = parseLine[1].strip(")").strip("(")
+
+            for line in os.popen('nc -n -v -G 3 ' + ipaddr + ' ' + 
+                                 str(intellivue_default_port) + ' 2>&1'):
+                if("failed" in line):
+                    print(ipaddr, "Failed")
+                elif("succeeded" in line):
+                    print(ipaddr, "Success")
+                #else:
+                #    print(line)
+scan_lan()
+sys.exit(1)
 
 #these are constants to run the program
 command_path = "/home/pi/Documents/VSCaptureMP/bin/Debug/net6.0"
