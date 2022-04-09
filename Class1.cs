@@ -29,12 +29,6 @@ using System.Threading;
 using System.Net.Http;
 using System.Text.Json;
 
-using MQTTnet;
-using MQTTnet.Client.Options;
-using MQTTnet.Extensions.ManagedClient;
-using MQTTnet.Client.Connecting;
-using MQTTnet.Diagnostics;
-
 namespace VSCaptureMP
 {
     public class MPudpclient : UdpClient
