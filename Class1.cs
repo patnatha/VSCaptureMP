@@ -1764,19 +1764,28 @@ namespace VSCaptureMP
                     {
                         m_RC_Data.Add("temp", NumValResult.Value);
                     }
-                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_ABP_MEAN" || NumValResult.PhysioID == "NOM_PRESS_BLD_MEAN")
+                    //Check that map is not thses two different tags
+                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_ABP_MEAN" || 
+                                NumValResult.PhysioID == "NOM_PRESS_BLD_MEAN")
                     {
                         m_RC_Data.Add("art_map", NumValResult.Value);
                     }
-                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_ABP_SYS" || NumValResult.PhysioID == "NOM_PRESS_BLD_SYS")
+                    //Check that systolic is not these two different tags
+                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_ABP_SYS" || 
+                            NumValResult.PhysioID == "NOM_PRESS_BLD_SYS")
                     {
                         m_RC_Data.Add("art_systolic", NumValResult.Value);
                     }
-                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_ABP_DIA" || NumValResult.PhysioID == "NOM_PRESS_BLD_DIA")
+                    //Check that diastolic is not these two different tags
+                    else if (NumValResult.PhysioID == "NOM_PRESS_BLD_ART_ABP_DIA" || 
+                            NumValResult.PhysioID == "NOM_PRESS_BLD_DIA")
                     {
                         m_RC_Data.Add("art_diastolic", NumValResult.Value);
                     }
-                    else if (!m_RC_Data.ContainsKey("art_pulse_rate") && NumValResult.PhysioID == "NOM_PULS_RATE")
+                    //Check to make sure this is not being populated by multiple different soruces
+                    //  i.e. PA and Art Line can both output this variable
+                    else if (!m_RC_Data.ContainsKey("art_pulse_rate") && 
+                            NumValResult.PhysioID == "NOM_PULS_RATE")
                     {
                         m_RC_Data.Add("art_pulse_rate", NumValResult.Value);
                     }
@@ -1839,7 +1848,6 @@ namespace VSCaptureMP
 
                 //Add the empty record_id
                 m_RC_Data.Add("record_id", "0");
-                
             }
 
             //Empty the list
