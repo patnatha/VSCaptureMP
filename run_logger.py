@@ -6,9 +6,12 @@ import sys
 import datetime
 import requests
 
-the_target = None
-the_or = None
-the_token = None
+#Variables for checking against redcap database
+last_start = None #time since last start
+time_delay = 1.5 * 60 #1.5 minutes to seconds
+the_target = None #redcap endpoint
+the_or = None #the or from configuration file
+the_token = None #the redcap token
 def load_token():
     global the_token, the_or, the_target
     try:
@@ -26,13 +29,16 @@ def load_token():
     except Exception as err:
         print("ERROR, no token file", err)
 
+#load the tokens
 load_token()
 
+#Check to see if any records been posted in the recent past
 def time_since_most_recent():
     global the_token, the_or, the_target
     try:
-        datetimebackMin = datetime.datetime.now() - datetime.timedelta(minutes=5)
+        datetimebackMin = datetime.datetime.now() - datetime.timedelta(seconds=time_delay)
         datetimebackMin = datetimebackMin.strftime("%Y-%m-%d %H:%M:%S")
+        #print(datetimebackMin)
         data = {
         'token': the_token,
         'content': 'record',
@@ -46,47 +52,47 @@ def time_since_most_recent():
         'exportSurveyFields': 'false',
         'exportDataAccessGroups': 'false',
         'returnFormat': 'json',
-        'filterLogic': '[or] = "' + the_or + '" AND [datetime] > "' + datetimebackMin + '"'
+        'filterLogic': '[or] = "' + the_or + '" AND [datetime] > "' 
+            + datetimebackMin + '"'
         }
         r = requests.post(the_target,data=data)
+        #print(r.status_code)
+        #print(r.json())
         if(r.status_code == 200):
             #Parse the response if the server is working
             if(len(r.json()) == 0):
-                return False
-            else:
                 return True
+            else:
+                return False
         else:
-            #Defaults to true
-            return True
-        #print(r.json())
+            return False
     except Exception as err:
-        #Defaults to trus
+        #Defaults to true
         print("Query REDCap Error", err)
-        return True
+        return False
 
-#time_since_most_recent()
-
+#Scan the lan and find the intellivue
 intellivue_lan = None
 intellivue_default_port = 24105
 def scan_lan():
-    devices = []
-    for device in os.popen('fping -a -g 192.168.8.0/24 2> /dev/null'): devices.append(device)
+    devices = ['192.168.8.217'] #hard code and set on the managed router
     print("Scanning LAN, found " + str(len(devices)) + " devices")
 
     for ipaddr in devices:
         ipaddr = ipaddr.strip("\n")
 
+        #Scan for the open port with netcat
         for line in os.popen('nc -v -u -w 3 ' + ipaddr + ' ' + 
                              str(intellivue_default_port) + ' 2>&1'):
             if("failed" in line or "timed out" in line):
-                print(ipaddr, "Failed")
+                print("\t", ipaddr, "Failed")
                 continue
             elif("succeeded" in line):
                 response = subprocess.run(["ping", "-c", "1", "-w2", 
                                             ipaddr], 
                                 stdout=subprocess.DEVNULL).returncode
                 if(response == 0):
-                    print(ipaddr, "Success") 
+                    print("\t", ipaddr, "Success") 
                     return ipaddr
             else:
                 print(ipaddr, "UNKNOWN RESP", line)
@@ -116,12 +122,17 @@ signal.signal(signal.SIGINT, sighandler)
 signal.signal(signal.SIGTERM, sighandler)
 
 def start_logger():
+    global last_start
+    last_start = datetime.datetime.now()
     print("\tStarting Logger")
     os.system("cd " + command_path + "; " + commandPre + 
               intellivue_lan + commandPost + "&")
 
 while True:
-    #Check to see if monitor is up on the LAN
+    #Print the current time 
+    print("=====", datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S"), "=====")
+    
+    #Get the intellivue_lan port
     intellivue_lan = scan_lan()
 
     #If monitor is up then start logger
@@ -131,6 +142,14 @@ while True:
             start_logger()
         else:
             print("\tLogger is Alive")
+            
+            #Check the database to make sure it is still posting records
+            if(time_since_most_recent() and last_start != None and
+                    (datetime.datetime.now() - last_start).seconds > time_delay):
+                print("\tBut hasn't recorded anything :(")
+                stop_logger()
+                start_logger()
+
     #If monitor is down then stop logger
     elif(intellivue_lan == None):
         print("Host is down")
@@ -139,6 +158,6 @@ while True:
         else:
             print("\tLogger already dead")
 
-    #Sleep for one minute
-    time.sleep(60)
+    #Sleep for a bit
+    time.sleep(30)
 
