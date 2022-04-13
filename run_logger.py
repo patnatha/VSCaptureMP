@@ -31,9 +31,8 @@ load_token()
 def time_since_most_recent():
     global the_token, the_or, the_target
     try:
-        datetime5Min = datetime.datetime.now() - datetime.timedelta(minutes=5)
-        datetime5Min = datetime5Min.strftime("%Y-%m-%d %H:%M:%S")
-        print(datetime5Min) 
+        datetimebackMin = datetime.datetime.now() - datetime.timedelta(minutes=5)
+        datetimebackMin = datetimebackMin.strftime("%Y-%m-%d %H:%M:%S")
         data = {
         'token': the_token,
         'content': 'record',
@@ -47,15 +46,25 @@ def time_since_most_recent():
         'exportSurveyFields': 'false',
         'exportDataAccessGroups': 'false',
         'returnFormat': 'json',
-        'filterLogic': '[or] = "' + the_or + '" AND [datetime] > "' + datetime5Min + '"'
+        'filterLogic': '[or] = "' + the_or + '" AND [datetime] > "' + datetimebackMin + '"'
         }
         r = requests.post(the_target,data=data)
-        print('HTTP Status: ' + str(r.status_code))
-        print(r.json())
+        if(r.status_code == 200):
+            #Parse the response if the server is working
+            if(len(r.json()) == 0):
+                return False
+            else:
+                return True
+        else:
+            #Defaults to true
+            return True
+        #print(r.json())
     except Exception as err:
+        #Defaults to trus
         print("Query REDCap Error", err)
+        return True
 
-time_since_most_recent()
+#time_since_most_recent()
 
 intellivue_lan = None
 intellivue_default_port = 24105
