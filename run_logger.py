@@ -3,6 +3,59 @@ import os
 import subprocess
 import signal
 import sys
+import datetime
+import requests
+
+the_target = None
+the_or = None
+the_token = None
+def load_token():
+    global the_token, the_or, the_target
+    try:
+        curFilePath = os.path.dirname(os.path.abspath(__file__))
+        tokenFilePath = os.path.join(curFilePath, "bin/Debug/net6.0/token.auth")
+        f = open(tokenFilePath)
+        for linenum, line in enumerate(f):
+            if(linenum == 2):
+                the_token = line.strip("\n")
+            elif(linenum == 0):
+                the_or = line.strip("\n")
+            elif(linenum == 1):
+                the_target = line.strip("\n")
+        f.close()
+    except Exception as err:
+        print("ERROR, no token file", err)
+
+load_token()
+
+def time_since_most_recent():
+    global the_token, the_or, the_target
+    try:
+        datetime5Min = datetime.datetime.now() - datetime.timedelta(minutes=5)
+        datetime5Min = datetime5Min.strftime("%Y-%m-%d %H:%M:%S")
+        print(datetime5Min) 
+        data = {
+        'token': the_token,
+        'content': 'record',
+        'action': 'export',
+        'format': 'json',
+        'type': 'flat',
+        'csvDelimiter': '',
+        'rawOrLabel': 'raw',
+        'rawOrLabelHeaders': 'raw',
+        'exportCheckboxLabel': 'false',
+        'exportSurveyFields': 'false',
+        'exportDataAccessGroups': 'false',
+        'returnFormat': 'json',
+        'filterLogic': '[or] = "' + the_or + '" AND [datetime] > "' + datetime5Min + '"'
+        }
+        r = requests.post(the_target,data=data)
+        print('HTTP Status: ' + str(r.status_code))
+        print(r.json())
+    except Exception as err:
+        print("Query REDCap Error", err)
+
+time_since_most_recent()
 
 intellivue_lan = None
 intellivue_default_port = 24105
